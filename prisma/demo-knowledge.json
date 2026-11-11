@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Certificado de alumno regular",
+    "category": "Certificados",
+    "keywords": "certificado alumno regular estudiante constancia",
+    "content": "Contenido ficticio de demostración. Para solicitar un certificado de alumno regular, ingresa a Solicitudes, selecciona la categoría Certificados y describe el documento requerido. El equipo administrativo revisará la solicitud. El portal permite consultar el estado; no se especifica un plazo de entrega."
+  },
+  {
+    "title": "Certificados académicos",
+    "category": "Certificados",
+    "keywords": "certificado académico notas estudios documento",
+    "content": "Contenido ficticio de demostración. Las solicitudes de certificados académicos se ingresan en Solicitudes, categoría Certificados. Indica qué documento necesitas. No se especifican requisitos adicionales ni plazos en esta guía."
+  },
+  {
+    "title": "Solicitud de convalidación",
+    "category": "Convalidaciones",
+    "keywords": "convalidación asignaturas ramos reconocimiento",
+    "content": "Contenido ficticio de demostración. Para consultar una convalidación, ingresa una solicitud en la categoría Convalidaciones y describe las asignaturas que deseas revisar. La institución debe evaluar cada caso. Esta guía no define documentos obligatorios, fechas ni aprobación automática."
+  },
+  {
+    "title": "Inscripción de asignaturas",
+    "category": "Consultas académicas",
+    "keywords": "inscripción asignaturas cursos ramos matrícula",
+    "content": "Contenido ficticio de demostración. Para recibir orientación sobre inscripción de asignaturas, crea una solicitud en la categoría Consultas académicas e indica el periodo que estás consultando. IP Conecta no se conecta a sistemas de matrícula."
+  },
+  {
+    "title": "Consultas administrativas",
+    "category": "Administración",
+    "keywords": "consulta administrativa atención solicitud ayuda",
+    "content": "Contenido ficticio de demostración. Si tu consulta requiere revisión personal, registra una solicitud con la categoría que mejor corresponda. Puedes revisar el estado desde el portal. No se publica un tiempo de respuesta garantizado."
+  },
+  {
+    "title": "Contacto con unidades institucionales",
+    "category": "Contacto",
+    "keywords": "contacto unidad departamento teléfono correo",
+    "content": "Contenido ficticio de demostración. No hay datos de contacto reales configurados en este entorno. Para que el equipo correspondiente revise tu caso, crea una solicitud desde IP Conecta."
+  }
+]

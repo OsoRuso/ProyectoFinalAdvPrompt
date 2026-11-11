@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  STUDENT
+  ADMIN
+}
+
+enum RequestCategory {
+  CERTIFICADOS
+  CONSULTAS_ACADEMICAS
+  CONVALIDACIONES
+  PROBLEMAS_ADMINISTRATIVOS
+  OTRAS
+}
+
+enum RequestStatus {
+  RECIBIDA
+  EN_REVISION
+  RESUELTA
+  RECHAZADA
+}
+
+model User {
+  id              String               @id @default(cuid())
+  name            String
+  email           String               @unique
+  passwordHash    String
+  role            UserRole             @default(STUDENT)
+  createdAt       DateTime             @default(now())
+  sessions        Session[]
+  requests        StudentRequest[]     @relation("RequestOwner")
+  comments        RequestComment[]
+  statusChanges   RequestStatusEvent[] @relation("StatusActor")
+  assistantUsage  AssistantUsage[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model KnowledgeArticle {
+  id        String   @id @default(cuid())
+  title     String
+  category  String
+  content   String   @db.Text
+  keywords  String
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+}
+
+model StudentRequest {
+  id          String               @id @default(cuid())
+  code        String               @unique
+  studentId   String
+  category    RequestCategory
+  subject     String
+  description String               @db.Text
+  status      RequestStatus        @default(RECIBIDA)
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  student     User                 @relation("RequestOwner", fields: [studentId], references: [id], onDelete: Restrict)
+  comments    RequestComment[]
+  events      RequestStatusEvent[]
+
+  @@index([studentId, createdAt])
+  @@index([status, createdAt])
+}
+
+model RequestComment {
+  id        String         @id @default(cuid())
+  requestId String
+  authorId  String
+  body      String         @db.Text
+  createdAt DateTime       @default(now())
+  request   StudentRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  author    User           @relation(fields: [authorId], references: [id], onDelete: Restrict)
+
+  @@index([requestId, createdAt])
+}
+
+model RequestStatusEvent {
+  id        String         @id @default(cuid())
+  requestId String
+  actorId   String
+  from      RequestStatus?
+  to        RequestStatus
+  createdAt DateTime       @default(now())
+  request   StudentRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  actor     User           @relation("StatusActor", fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([requestId, createdAt])
+}
+
+model AssistantUsage {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model LoginAttempt {
+  id          String   @id @default(cuid())
+  emailHash   String
+  attemptedAt DateTime @default(now())
+
+  @@index([emailHash, attemptedAt])
+}
