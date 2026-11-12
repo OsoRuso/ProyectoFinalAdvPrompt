@@ -16,10 +16,15 @@ async function main() {
   const articles = JSON.parse(
     await readFile(new URL("./demo-knowledge.json", import.meta.url), "utf8"),
   );
-  await prisma.knowledgeArticle.createMany({
-    data: articles,
-    skipDuplicates: true,
+  const existingArticles = await prisma.knowledgeArticle.findMany({
+    where: { title: { in: articles.map((article) => article.title) } },
+    select: { title: true },
   });
+  const existingTitles = new Set(existingArticles.map((article) => article.title));
+  const newArticles = articles.filter((article) => !existingTitles.has(article.title));
+  if (newArticles.length > 0) {
+    await prisma.knowledgeArticle.createMany({ data: newArticles });
+  }
 
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD;

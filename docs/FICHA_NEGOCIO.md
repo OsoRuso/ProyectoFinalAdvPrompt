@@ -1,27 +1,24 @@
 # IP Conecta — Ficha de negocio (fuente del PDF)
 
-**Cliente:** Institutos Profesionales y Centros de Formación Técnica de Chile. Comprador inicial: equipo responsable de atención estudiantil. El segmento de instituciones con consultas repetitivas es una hipótesis por validar mediante entrevistas.
+**Cliente:** institutos profesionales y centros de formación técnica de Chile; comprador inicial: área de atención estudiantil. El problema y el segmento son hipótesis por validar con instituciones.
 
-**Problema:** orientación y solicitudes pueden quedar repartidas en varios canales, con preguntas frecuentes manuales y poca visibilidad del seguimiento. No se cuenta con datos de institución real; no afirmamos ahorros cuantificados.
+**Problema y solución:** consultas dispersas y seguimiento poco claro. IP Conecta reúne orientación y solicitudes trazables en un portal; un asistente de IA redacta respuestas a partir de artículos publicados y propone atención humana si falta evidencia. La demostración usa datos ficticios.
 
-**Propuesta de valor:** autoservicio con IA generativa grounded en artículos institucionales, fuentes visibles y abstención cuando falta respaldo; solicitudes trazables para atención humana y bandeja administrativa. Demo con institución y datos ficticios, sin integración académica.
+**Ingresos:** suscripción B2B mensual o anual por tramo de matrícula o volumen; configuración inicial opcional. Precio y disposición a pagar pendientes de validar.
 
-**Modelo de ingresos:** suscripción B2B mensual/anual por tramo de matrícula o volumen; configuración inicial opcional. Tarifa y disposición a pagar pendientes de validar con compradores.
+## Estimación de costos mensuales de demostración (USD)
 
-## Estimación de costo mensual para demo (USD)
+Escenario ilustrativo, **no la configuración ni la factura observada de la instancia real**: Santiago (`southamerica-west1`), 730 horas/mes, Cloud SQL Enterprise compartido `db-f1-micro`, una zona, 10 GiB de SSD y 1 GiB de respaldo; Cloud Run con facturación por solicitud, escala a cero y consumo bajo dentro del crédito gratuito disponible; 1.000 consultas generativas de 2.000 tokens de entrada y 300 de salida cada una, con GPT-4o estándar, sin descuentos por caché.
 
-Escenario de bajo tráfico: **1.000 consultas generativas/mes**, promedio supuesto de **2.000 tokens de entrada** (instrucciones + contexto recuperado) y **300 tokens de salida** por consulta. Con el precio estándar publicado para GPT-6 Luna de **US$0,10/M tokens de entrada** y **US$0,50/M de salida**, el gasto aproximado de IA es:
+| Partida | Cálculo | Estimación mensual |
+|---|---|---:|
+| Cloud SQL: instancia | 730 h × US$0,0147/h | US$10,73 |
+| Cloud SQL: SSD | 10 GiB × 730 h × US$0,000326027/GiB-h | US$2,38 |
+| Cloud SQL: respaldo | 1 GiB × 730 h × US$0,000153425/GiB-h | US$0,11 |
+| Cloud Run | Uso supuesto dentro del crédito gratuito de la cuenta | US$0,00 |
+| OpenAI GPT-4o | 2 millones de tokens de entrada × US$2,50/M + 0,3 millones de salida × US$10/M | US$8,00 |
+| **Subtotal estimado** | | **US$21,22/mes** |
 
-`(2.000.000 × US$0,10 / 1.000.000) + (300.000 × US$0,50 / 1.000.000) = US$0,35/mes`
+El subtotal excluye impuestos, dominio, red/IP, Secret Manager, soporte y consumo adicional. El crédito gratuito de Cloud Run se comparte entre proyectos de la cuenta y se calcula como descuento monetario; el costo puede no ser cero. Cloud SQL continúa generando cargos mientras la instancia esté activa, independientemente de las consultas. La máquina compartida no tiene SLA de Cloud SQL. Una prueba gratuita o créditos pueden reducir la factura temporalmente, pero no se presuponen.
 
-Para Cloud Run se asume 1 vCPU y 0,5 GiB, servicio de escala a cero y consumo bajo dentro del nivel gratuito publicado (240.000 vCPU-s y 450.000 GiB-s/mes en us-central1). Para Neon se asume el plan Free, limitado por proyecto a 100 CU-h/mes y 1 GB de almacenamiento. Bajo esas condiciones, las partidas de hosting y base de datos se estiman en **US$0**, sujeto a límites y elegibilidad del nivel gratuito.
-
-**Total de referencia: aproximadamente US$0,35/mes** para este escenario de demo, antes de impuestos, dominio, egreso, soporte, cargos fuera de los niveles gratuitos y consumo superior al supuesto. No equivale a costo de operación comercial con SLA ni a cotización garantizada. Configurar límite de gasto real en OpenAI y alertas de facturación en los proveedores.
-
-### Fuentes oficiales consultadas (11-11-2026)
-
-- [OpenAI API pricing](https://developers.openai.com/api/docs/pricing) — tarifa estándar del modelo GPT-6 Luna.
-- [Google Cloud Run pricing](https://cloud.google.com/run/pricing?hl=es-419) — niveles gratuitos y precios regionales; el cálculo supone us-central1.
-- [Neon pricing](https://neon.com/pricing) — límites publicados del plan Free.
-
-Antes de entregar, recalcular con región, tráfico, volumen real del contexto, plan y cotizaciones vigentes. Los precios pueden cambiar.
+**Fuentes oficiales consultadas el 12-11-2026:** [Cloud SQL: instancia y almacenamiento, región Santiago](https://cloud.google.com/sql/pricing), [Cloud Run](https://cloud.google.com/run/pricing) y [OpenAI GPT-4o](https://developers.openai.com/api/docs/models/gpt-4o). OpenAI indica que GPT-4o está deprecado; verificar disponibilidad y planificar su reemplazo antes de que deje de estar disponible. Validar clase real, horas, tamaño de disco, respaldo, red y costos en la calculadora y facturación de Google Cloud; establecer límites y alertas de gasto.

@@ -38,7 +38,7 @@ La IA transforma una pregunta en lenguaje natural en orientación contextual bas
 
 **Hipótesis de ingresos:** licencia SaaS mensual o anual por tramo de matrícula o volumen de uso; servicio opcional de configuración inicial e incorporación de contenido. Se debe validar disposición a pagar y definir niveles con potenciales compradores.
 
-**Costos a estimar antes de entregar la ficha:** aplicación/hosting, PostgreSQL administrado, dominio si aplica, consumo de tokens de IA y soporte/configuración. Documentar proveedor, tarifa consultada, volumen supuesto de consultas y fecha de estimación. No presentar valores inventados ni un margen no validado.
+**Costos:** la [ficha de negocio](./FICHA_NEGOCIO.md) presenta un escenario de demostración con Cloud Run, Cloud SQL y GPT-4o. No es una cotización ni la factura real; validar configuración, dominio, consumo y soporte antes de ofrecer el servicio.
 
 ## Límites del MVP y validación
 

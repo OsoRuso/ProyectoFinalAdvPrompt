@@ -36,8 +36,12 @@ for (const version of versions) {
   );
 
   for (const test of tests) {
-    const context = articles
-      .filter((article) => test.titles.includes(article.title))
+    const selectedArticles = test.titles.map((title) => {
+      const article = articles.find((item) => item.title === title);
+      if (!article) throw new Error(`No se encontró el artículo de prueba: ${title}`);
+      return article;
+    });
+    const context = selectedArticles
       .map((article, index) => `[${index + 1}] ${article.title}\n${article.content}`)
       .join("\n\n");
     const completion = await client.chat.completions.create({
@@ -52,11 +56,19 @@ for (const version of versions) {
       max_completion_tokens: 300,
     });
 
+    const answer = completion.choices[0]?.message.content?.trim();
+    if (!answer) {
+      throw new Error(`El modelo no devolvió una respuesta para ${version} ${test.id}.`);
+    }
+
     console.log(JSON.stringify({
+      timestamp: new Date().toISOString(),
       version,
       case: test.id,
       model,
-      answer: completion.choices[0]?.message.content?.trim() ?? "",
+      modelSnapshot: completion.model,
+      contextTitles: selectedArticles.map((article) => article.title),
+      answer,
     }));
   }
 }
